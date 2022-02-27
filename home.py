@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import os 
 import matplotlib.pyplot as plt
 import time
+import numpy as np
 
 info_s = """ebitdaMargins
 profitMargins
@@ -137,6 +138,9 @@ with open(type_select.replace(' ','')+'.txt') as f:
 
 selection = st.sidebar.selectbox("Please Select a Ticker",stocks)
 
+st.sidebar.write('A higher learning rate would lead to the data being more spread out')
+learning_rate = st.sidebar.selectbox('Choose Desired Learning Rate',np.arange(2,450,10))
+
 
 if st.sidebar.button('Find'):
     #data preprocessing 
@@ -150,7 +154,7 @@ if st.sidebar.button('Find'):
     # Create a normalizer: normalizer
     normalizer = Normalizer()
 
-    tsne = TSNE(learning_rate=200)
+    tsne = TSNE(learning_rate=learning_rate)
 
     # Make a pipeline chaining normalizer and kmeans: pipeline
     pipeline = make_pipeline(normalizer,tsne)
@@ -165,10 +169,10 @@ if st.sidebar.button('Find'):
     ys = tsne_features[:,1]
 
     to_plot = pd.DataFrame({'x':xs,'y':ys,'Ticker':tickers,'Sector':sectors})
-
+    
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=to_plot['x'],y=to_plot['y'],text=to_plot['Ticker'],mode='markers',marker=dict(size=12)))
 
+    fig.add_trace(go.Scatter(x=to_plot['x'],y=to_plot['y'],text=to_plot['Ticker'],mode='markers',marker=dict(size=12)))
     selection = to_plot[to_plot['Ticker'] == selection ]
     fig.add_trace(go.Scatter(x=selection['x'],y=selection['y'],text = selection['Ticker'],mode='markers',marker=dict(size=45,color='rgba(0, 0, 0, 0)',line=dict(color='red',width=3))))
     fig.update_layout(template="simple_white",width=2400, height=900,title = "Universe of Stocks", font=dict(
