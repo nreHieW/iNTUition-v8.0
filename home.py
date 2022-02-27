@@ -8,7 +8,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.manifold import TSNE
 import plotly.graph_objects as go
 import os 
-import seaborn as sns
 import matplotlib.pyplot as plt
 import time
 
