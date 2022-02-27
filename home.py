@@ -138,7 +138,7 @@ with open(type_select.replace(' ','')+'.txt') as f:
 selection = st.sidebar.selectbox("Please Select a Ticker",stocks)
 
 st.sidebar.write('A higher learning rate would lead to the data being more spread out')
-learning_rate = st.sidebar.selectbox('Choose Desired Learning Rate',np.arange(2,450,10))
+learning_rate = st.sidebar.selectbox('Choose Desired Learning Rate',np.arange(10,450,10))
 
 
 if st.sidebar.button('Find'):
